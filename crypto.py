@@ -2,31 +2,25 @@ import matplotlib.pyplot as plt
 import numpy as np
 from binance.spot import Spot
 from datetime import datetime
+import ast
 import re
 
 client = Spot()
-data = client.klines("BTCUSDT", "1h", limit=1)
+price = client.klines("BTCUSDT", "0.5h", limit=1)
 date = client.time()
 
-print(date)
+data = str(date)
+data_dict = ast.literal_eval(data)
+server_time = data_dict['serverTime']
 
-seconds1 = re.search(r"\+", date).group()
+milliseconds = server_time
 
-#for i in data:
- #   print(i)
-
-
-milliseconds = seconds1
-
-    # Convert milliseconds to seconds
 seconds = milliseconds / 1000
-    # Convert to a datetime object
 normal_time = datetime.utcfromtimestamp(seconds)
-    # Format the datetime object to a readable string
-formatted_time = normal_time.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]  # Exclude last 3 digits of microseconds
+formatted_time = normal_time.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]  
 
-# Example usage
 print("Normal Time:", formatted_time)
+print(price)
 
 #fig, ax = plt.subplots()
 #ax.plot(x, y)
