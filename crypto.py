@@ -1,36 +1,39 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from binance.spot import Spot
-from datetime import datetime
-import ast
-import re
+import time
 
+# Initialize the Spot client
 client = Spot()
-price = client.klines("BTCUSDT", "3d", limit=1)
-date = client.time()
+counter = 0
+price_list = []
 
-data = str(date)
-data_dict = ast.literal_eval(data)
-server_time = data_dict['serverTime']
+# Get the current Bitcoin price
+while counter < 10:
+    btc_price = client.ticker_price("BTCUSDT")
+    
+    # Extract and print the price, converting it to float
+    price = float(btc_price['price'])
+    print(f"Current Bitcoin Price: {price}")
+    price_list.append(price)
+    
+    time.sleep(1)
+    counter += 1
 
-milliseconds = server_time
+# Prepare x-values
+x_values = list(range(1, len(price_list) + 1))  # [1, 2, 3, ..., 10]
 
-seconds = milliseconds / 1000
-normal_time = datetime.utcfromtimestamp(seconds)
-formatted_time = normal_time.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]  
-
-print("Normal Time:", formatted_time)
-for i in price:
-    price2 = i
-
+# Plot the data
 plt.style.use('dark_background')
+plt.plot(x_values, price_list, marker='o', label='Bitcoin Price')
 
-x = np.array([1, 2, 3, 2])
-print(price2)
-y = np.array(price2)
-plt.plot(y, marker = 'o')
+# Customize plot
+plt.xlim(0, 20)  # Set x-axis range
+plt.ylim(0, 150000)  # Set y-axis range
+plt.xlabel('Time (Index)')
+plt.ylabel('Price (USDT)')
+plt.title('Bitcoin Price Over Time')
+plt.legend()
+
+# Show the plot
 plt.show()
- 
-#figure, ax = plt.subplots(figsize=(10,8))
-#line1 = plt.plot(ypoints, marker = 'o')
-
