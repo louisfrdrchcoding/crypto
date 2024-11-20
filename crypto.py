@@ -6,7 +6,7 @@ import ast
 import re
 
 client = Spot()
-price = client.klines("BTCUSDT", "3d", limit=1)
+price = client.klines("BTCUSDT", "1d", limit=1)
 date = client.time()
 
 data = str(date)
@@ -22,11 +22,11 @@ formatted_time = normal_time.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
 print("Normal Time:", formatted_time)
 for i in price:
     price2 = i
-
+print(price2)
 plt.style.use('dark_background')
 
 x = np.array([1, 2, 3, 2])
-print(price2)
+#print(price2)
 y = np.array(price2)
 plt.plot(y, marker = 'o')
 plt.show()
