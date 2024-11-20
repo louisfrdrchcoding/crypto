@@ -29,7 +29,8 @@ plt.plot(x_values, price_list, marker='o', label='Bitcoin Price')
 
 # Customize plot
 plt.xlim(0, 20)  # Set x-axis range
-plt.ylim(0, 150000)  # Set y-axis range
+#plt.ylim(0, 150000)  # Set y-axis range
+y = np.array(price_list)
 plt.xlabel('Time (Index)')
 plt.ylabel('Price (USDT)')
 plt.title('Bitcoin Price Over Time')
