@@ -1,40 +1,47 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from binance.spot import Spot
-import time
+from matplotlib.animation import FuncAnimation
+import datetime
 
-# Initialize the Spot client
 client = Spot()
-counter = 0
-price_list = []
-
-# Get the current Bitcoin price
-while counter < 10:
-    btc_price = client.ticker_price("BTCUSDT")
-    
-    # Extract and print the price, converting it to float
-    price = float(btc_price['price'])
-    print(f"Current Bitcoin Price: {price}")
-    price_list.append(price)
-    
-    time.sleep(1)
-    counter += 1
-
-# Prepare x-values
-x_values = list(range(1, len(price_list) + 1))  # [1, 2, 3, ..., 10]
-
-# Plot the data
+y_values = []
 plt.style.use('dark_background')
-plt.plot(x_values, price_list, marker='o', label='Bitcoin Price')
-
-# Customize plot
-plt.xlim(0, 20)  # Set x-axis range
-#plt.ylim(0, 150000)  # Set y-axis range
-y = np.array(price_list)
 plt.xlabel('Time (Index)')
 plt.ylabel('Price (USDT)')
 plt.title('Bitcoin Price Over Time')
-plt.legend()
+time = []
 
-# Show the plot
+class Counter:
+
+    def setCounter(self, counter: int):
+        self._counter = counter
+
+    def getCounter(self)->int:
+        return self._counter
+
+c = Counter()
+c.setCounter(0)
+
+def update_btc_price(i):
+
+    if c.getCounter() == 0:
+        time.append((datetime.datetime.now().strftime("%M")))
+    elif c.getCounter() == 10:
+        time.append((datetime.datetime.now().strftime("%M")))
+        c.setCounter(1)
+    else:
+        c.setCounter(c.getCounter()+1)
+
+    btc_price = client.ticker_price("BTCUSDT")
+        
+    price = float(btc_price['price'])
+    y_values.append(price)
+
+    x_values = time
+    plt.cla()
+    plt.plot(x_values ,y_values, marker='s', label='Bitcoin Price')
+  
+
+ani = FuncAnimation(plt.gcf(), update_btc_price, interval=300)
 plt.show()
