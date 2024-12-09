@@ -50,12 +50,12 @@ def BTCGraph(coin:str):
 
     # Load the image once at the start
     if coin == "BTCUSDT":
-      img = mpimg.imread("./img/BTC.jpg")
+      img = mpimg.imread("./crypto-Lukas/img/BTC.jpg")
       button = Button(button_ax, "ETH", color = "black")
       button.label.set_color("green")
 
     elif coin == "ETHUSDT":
-      img = mpimg.imread("./img/ETH.png")
+      img = mpimg.imread("./crypto-Lukas/img/ETH.png")
       button = Button(button_ax, "ETH", color = "black")
       button.label.set_color("green")
     
